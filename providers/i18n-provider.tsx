@@ -1,43 +1,42 @@
 'use client'
 
 import i18next from 'i18next'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { initReactI18next, useTranslation as useTranslationOrg } from 'react-i18next'
 import { useCookies } from 'react-cookie'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import { getOptions, languages } from './i18n-options'
+import { getOptions, languages, fallbackLng } from './i18n-options'
 
 import en from '../public/locales/en/common.json'
 import fr from '../public/locales/fr/common.json'
 import tr from '../public/locales/tr/common.json'
 
 const resources = {
-  en: {
-    common: en
-  },
-  fr: {
-    common: fr
-  },
-  tr: {
-    common: tr
-  }
+  en: { common: en },
+  fr: { common: fr },
+  tr: { common: tr }
 }
 
 const runsOnServerSide = typeof window === 'undefined'
 
+// i18next yapılandırması
 i18next
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    ...getOptions(),
     resources,
+    fallbackLng,
+    supportedLngs: languages,
+    ns: ['common'],
+    defaultNS: 'common',
+    fallbackNS: 'common',
     detection: {
-      order: ['cookie', 'localStorage', 'navigator', 'htmlTag'],
-      caches: ['cookie'],
+      order: ['cookie'],
+      lookupCookie: 'i18next',
+      caches: ['cookie']
     },
-    preload: runsOnServerSide ? languages : [],
     interpolation: {
-      escapeValue: false // React güvenlik özelliklerine uyum
+      escapeValue: false
     }
   })
 
@@ -48,30 +47,42 @@ export default function I18nProvider({
   children: React.ReactNode
   locale: string
 }) {
-  const [cookies, setCookie] = useCookies(['i18next'])
+  const [cookies] = useCookies(['i18next'])
+  const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
-    const cookieLanguage = cookies.i18next
-
-    // Çerezde dil yoksa veya eşleşmiyorsa locale'yi kullan
-    if (!cookieLanguage || cookieLanguage !== locale) {
-      setCookie('i18next', locale, { path: '/' }) // Çerezi güncelle
-      i18next.changeLanguage(locale) // i18next dilini güncelle
-    } else {
-      i18next.changeLanguage(cookieLanguage) // Çerezdeki dile geçiş yap
+    const initLanguage = async () => {
+      try {
+        const savedLang = cookies.i18next
+        if (savedLang && languages.includes(savedLang)) {
+          await i18next.changeLanguage(savedLang)
+        } else {
+          const browserLang = navigator.language.split('-')[0]
+          const initialLang = languages.includes(browserLang) ? browserLang : fallbackLng
+          await i18next.changeLanguage(initialLang)
+        }
+      } catch (error) {
+        console.error('Language initialization error:', error)
+        await i18next.changeLanguage(fallbackLng)
+      } finally {
+        setIsInitialized(true)
+      }
     }
-  }, [locale, cookies.i18next, setCookie])
 
-  return (
-    <div key={locale}>
-      {children}
-    </div>
-  )
+    if (!isInitialized) {
+      initLanguage()
+    }
+  }, [cookies.i18next, isInitialized])
+
+  if (!isInitialized) {
+    return null
+  }
+
+  return children
 }
 
 export function useTranslation(ns: string = 'common') {
-  const translation = useTranslationOrg(ns)
-  return translation
+  return useTranslationOrg(ns)
 }
 
-export { i18next }
+export { i18next, I18nProvider }

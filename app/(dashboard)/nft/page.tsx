@@ -174,7 +174,7 @@ const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-export default function NFTDashboard() {
+const NFTDashboard = () => {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -370,3 +370,5 @@ export default function NFTDashboard() {
     </div>
   )
 }
+
+export default NFTDashboard

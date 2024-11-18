@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
-export default function CRMDashboard() {
+const CRMDashboard = () => {
   const [searchQuery, setSearchQuery] = useState('')
 
   const kpiData = [
@@ -171,3 +171,5 @@ export default function CRMDashboard() {
     </div>
   )
 }
+
+export default CRMDashboard
