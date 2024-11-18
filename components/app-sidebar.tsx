@@ -2,15 +2,11 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
   Bot,
-  Command,
   Frame,
   GalleryVerticalEnd,
   Map,
   PieChart,
-  Settings2,
   SquareTerminal,
 } from "lucide-react"
 
@@ -50,17 +46,17 @@ const data = {
       items: [
         {
           title: "CRM Dashboard",
-          url: "/dashboard/crm",
+          url: "/crm",
           role: ["Admin", "User"],
         },
         {
           title: "Sales Dashboard",
-          url: "/dashboard/sales",
+          url: "/sales",
           role: ["Admin", "User"],
         },
         {
           title: "NFT Dashboard",
-          url: "/dashboard/nft",
+          url: "/nft",
           role: ["Admin", "User"],
         },
       ],
