@@ -49,13 +49,13 @@ export function LayoutSidebarProvider({ children }: { children: React.ReactNode 
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <div className="ml-auto mr-0 flex items-center gap-2">
+            <div className="ml-auto mr-0 flex items-center gap-2 mt-2">
               <ModeToggle />
               <LanguageToggle />
             </div>
           </div>
         </header>
-        {children}
+          {children}
       </SidebarInset>
     </SidebarProvider>
   )
