@@ -31,6 +31,7 @@ export default function RootLayout({
                 <main className="p-8">
                 {children}
                 </main>
+                <Toaster />
               </SidebarProvider>
             </I18nProvider>
           </AuthProvider>

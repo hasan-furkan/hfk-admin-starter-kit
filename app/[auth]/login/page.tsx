@@ -6,10 +6,12 @@ export const metadata: Metadata = {
     description: 'Login to your account',
   }
 
-export default function LoginPage() {
+const LoginPage = () => {
   return (
     <div>
         <LoginPageComponent />
     </div>
   )
 }
+
+export default LoginPage
