@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"
 
 export default function ErrorPage() {
   const searchParams = useSearchParams()
-  const error = searchParams.get("error")
+  const error = searchParams?.get("error")
   const router = useRouter()
 
   let errorMessage = "An error occurred"
