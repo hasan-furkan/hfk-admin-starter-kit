@@ -37,7 +37,7 @@ export default function LanguageToggle() {
         <Button 
           variant="ghost" 
           size="icon"
-          className="hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
+          className="relative hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200"
         >
           <Languages className="h-5 w-5 text-slate-600 dark:text-slate-400" />
           <span className="sr-only">Toggle language</span>
@@ -45,7 +45,7 @@ export default function LanguageToggle() {
       </DropdownMenuTrigger>
       <DropdownMenuContent 
         align="end" 
-        className="min-w-[150px] p-2 bg-white dark:bg-background rounded-lg shadow-lg border border-slate-200"
+        className="z-[100] min-w-[150px] p-2 bg-white dark:bg-background rounded-lg shadow-lg border border-slate-200"
       >
         {languages.map((lang) => (
           <DropdownMenuItem 

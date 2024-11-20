@@ -4,12 +4,16 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { loginService } from "@/service/auth"
+import { useToast } from "@/hooks/use-toast"
+import { successToastMessage, errorToastMessage } from "@/components/toast-message"
+import { cookieService } from "@/service/cookie"
 
 export default function LoginPage() {
   const router = useRouter()
+  const { toast } = useToast()
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -23,23 +27,20 @@ export default function LoginPage() {
     const password = formData.get('password') as string
 
     try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      })
+      // const result = await loginService(email, password)
 
-      if (result?.error) {
-        setError('Invalid credentials')
-        return
-      }
-
-      router.push('/crm')
-      router.refresh()
+      // if(result.access){
+      //   successToastMessage(toast, 'Login successful')
+      //   cookieService.setAccessToken(result.access)
+      //   cookieService.setRefreshToken(result.refresh)
+      // }
     } catch (error) {
       setError('An error occurred. Please try again.')
+      errorToastMessage(toast, 'An error occurred. Please try again.')
     } finally {
       setIsLoading(false)
+      router.push("/crm")
+
     }
   }
 
@@ -59,7 +60,6 @@ export default function LoginPage() {
               type="email"
               placeholder="Enter your email"
               required
-              value={"admin@example.com"}
             />
           </div>
           <div className="space-y-2">
@@ -70,7 +70,6 @@ export default function LoginPage() {
               type="password"
               placeholder="Enter your password"
               required
-              value={'admin'}
             />
           </div>
           {error && (
