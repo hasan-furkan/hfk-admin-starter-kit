@@ -30,32 +30,36 @@ export function LayoutSidebarProvider({ children }: { children: React.ReactNode 
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4 w-full">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href={pathname}>
-                    {pageTitleCapitalized}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>
-                    {dashboardTitleCapitalized}
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-            <div className="ml-auto mr-0 flex items-center gap-2 mt-2">
-              <ModeToggle />
-              <LanguageToggle />
+        <header className="sticky top-0 z-40 mt-2">
+          <div className="px-4 py-3">
+            <div className="flex h-14 items-center px-4 py-1 bg-background/60 backdrop-blur-xl rounded-[20px] border border-border/40 shadow-lg shadow-background/20 ring-1 ring-black/5 transition-all duration-200 hover:shadow-xl hover:shadow-background/30 hover:-translate-y-0.5">
+              <SidebarTrigger className="-ml-1 hover:bg-muted/60 transition-colors" />
+              <Separator orientation="vertical" className="mx-3 h-4" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href={pathname} className="hover:text-primary transition-colors">
+                      {pageTitleCapitalized}
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block text-muted-foreground/60" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage className="text-muted-foreground">
+                      {dashboardTitleCapitalized}
+                    </BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+              <div className="ml-auto flex items-center space-x-3">
+                <ModeToggle />
+                <LanguageToggle />
+              </div>
             </div>
           </div>
         </header>
+        <div className="px-4">
           {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   )

@@ -4,8 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { I18nProvider } from "@/providers/i18n-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { SessionProvider } from "@/providers/session-provider";
 import { cookies } from "next/headers";
+import { useEffect } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +25,6 @@ export default function RootLayout({
   return (
     <html lang={lang} suppressHydrationWarning>
       <body className={inter.className}>
-        <SessionProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -37,7 +36,6 @@ export default function RootLayout({
               <Toaster />
             </I18nProvider>
           </ThemeProvider>
-        </SessionProvider>
       </body>
     </html>
   );
